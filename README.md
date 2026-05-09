@@ -157,3 +157,9 @@ Si tú o tus compañeros se encuentran con algún problema al levantar o usar el
   ```bash
   docker compose exec web python setup_db.py
   ```
+
+---
+
+## 📸 Vista Previa del Sistema
+
+![Vista del Dashboard](media/image.png)
