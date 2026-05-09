@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -136,3 +137,9 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Directorio donde Django recopilará los estáticos (ej. panel de admin) usando collectstatic
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Autenticación
+LOGIN_URL = "nutricion:login"
+LOGIN_REDIRECT_URL = "nutricion:dashboard"
+LOGOUT_REDIRECT_URL = "nutricion:login"
+

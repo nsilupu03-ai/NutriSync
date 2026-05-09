@@ -75,4 +75,15 @@ def logout_view(request):
 
 @login_required
 def perfil_view(request):
-    return render(request, "nutricion/perfil.html", {"user": request.user})
+    from nutricion.models import PerfilUsuario
+
+    perfil = None
+    try:
+        perfil = request.user.perfil
+    except PerfilUsuario.DoesNotExist:
+        pass
+
+    return render(request, "nutricion/perfil.html", {
+        "user": request.user,
+        "perfil": perfil,
+    })

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Comidas — NutriSync{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+
+  <!-- Encabezado -->
+  <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800">🍽️ Registros de Comidas</h1>
+      <p class="text-gray-500 text-sm mt-1">Últimos 7 días</p>
+    </div>
+    <a href="{% url 'nutricion:crear_comida' %}"
+       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+      + Nueva comida
+    </a>
+  </div>
+
+  {% if registros %}
+  <div class="bg-white rounded-xl shadow overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full text-sm">
+        <thead class="bg-green-700 text-white">
+          <tr>
+            <th class="py-3 px-4 text-left">Fecha</th>
+            <th class="py-3 px-4 text-left">Tipo de comida</th>
+            <th class="py-3 px-4 text-left">Alimentos</th>
+            <th class="py-3 px-4 text-right">Calorías</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          {% for registro in registros %}
+          <tr class="hover:bg-green-50 transition">
+            <td class="py-3 px-4 font-medium text-gray-700">
+              {{ registro.fecha|date:"d/m/Y" }}
+            </td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                {% if registro.tipo_comida == 'DE' %}bg-yellow-100 text-yellow-800
+                {% elif registro.tipo_comida == 'AL' %}bg-green-100 text-green-800
+                {% elif registro.tipo_comida == 'CE' %}bg-indigo-100 text-indigo-800
+                {% else %}bg-pink-100 text-pink-800{% endif %}">
+                {{ registro.get_tipo_comida_display }}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-gray-500">
+              {% for item in registro.items.all %}
+                <span class="inline-block bg-gray-100 text-gray-700 text-xs rounded px-2 py-0.5 mr-1 mb-1">
+                  {{ item.alimento.nombre }} — {{ item.cantidad_g|floatformat:0 }}g
+                </span>
+              {% empty %}
+                <span class="text-gray-400 italic">Sin ítems</span>
+              {% endfor %}
+            </td>
+            <td class="py-3 px-4 text-right font-semibold text-gray-800">
+              {{ registro.total_calorias|floatformat:0 }} kcal
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Si tiene paginación (CBV) -->
+  {% if is_paginated %}
+  <div class="flex justify-center mt-6 gap-2">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}"
+       class="px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm">
+      ← Anterior
+    </a>
+    {% endif %}
+    <span class="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-semibold">
+      Página {{ page_obj.number }}
+    </span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}"
+       class="px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm">
+      Siguiente →
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% else %}
+  <div class="bg-white rounded-xl shadow p-12 text-center text-gray-400">
+    <p class="text-5xl mb-4">🥗</p>
+    <p class="text-lg font-medium">Aún no tienes registros de comidas.</p>
+    <a href="{% url 'nutricion:crear_comida' %}"
+       class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+      Registrar primera comida
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- Volver -->
+  <div class="mt-6">
+    <a href="{% url 'nutricion:dashboard' %}"
+       class="text-sm text-gray-500 hover:text-gray-700 hover:underline">
+      ← Volver al Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

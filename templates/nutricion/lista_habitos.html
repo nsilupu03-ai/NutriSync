@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Hábitos — NutriSync{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+
+  <!-- Encabezado -->
+  <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800">💧 Registros de Hábitos</h1>
+      <p class="text-gray-500 text-sm mt-1">Últimos 7 días</p>
+    </div>
+    <a href="{% url 'nutricion:crear_habito' %}"
+       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+      + Nuevo hábito
+    </a>
+  </div>
+
+  {% if habitos %}
+  <div class="bg-white rounded-xl shadow overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full text-sm">
+        <thead class="bg-green-700 text-white">
+          <tr>
+            <th class="py-3 px-4 text-left">Fecha</th>
+            <th class="py-3 px-4 text-center">💧 Agua</th>
+            <th class="py-3 px-4 text-center">😴 Sueño</th>
+            <th class="py-3 px-4 text-center">👟 Pasos</th>
+            <th class="py-3 px-4 text-center">🏋️ Ejercicio</th>
+            <th class="py-3 px-4 text-center">Tipo</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          {% for habito in habitos %}
+          <tr class="hover:bg-green-50 transition">
+            <td class="py-3 px-4 font-medium text-gray-700">
+              {{ habito.fecha|date:"d/m/Y" }}
+            </td>
+            <td class="py-3 px-4 text-center">
+              <span class="font-semibold text-cyan-700">{{ habito.vasos_agua }}</span>
+              <span class="text-gray-400 text-xs">vasos</span>
+            </td>
+            <td class="py-3 px-4 text-center">
+              <span class="font-semibold text-indigo-700">{{ habito.horas_sueno }}</span>
+              <span class="text-gray-400 text-xs">h</span>
+            </td>
+            <td class="py-3 px-4 text-center">
+              <span class="font-semibold text-orange-600">{{ habito.pasos }}</span>
+            </td>
+            <td class="py-3 px-4 text-center">
+              <span class="font-semibold text-green-700">{{ habito.minutos_ejercicio }}</span>
+              <span class="text-gray-400 text-xs">min</span>
+            </td>
+            <td class="py-3 px-4 text-center">
+              {% if habito.tipo_ejercicio %}
+              <span class="inline-block bg-green-100 text-green-700 text-xs rounded-full px-2 py-0.5">
+                {{ habito.get_tipo_ejercicio_display }}
+              </span>
+              {% else %}
+              <span class="text-gray-400">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% else %}
+  <div class="bg-white rounded-xl shadow p-12 text-center text-gray-400">
+    <p class="text-5xl mb-4">📋</p>
+    <p class="text-lg font-medium">Aún no tienes registros de hábitos.</p>
+    <a href="{% url 'nutricion:crear_habito' %}"
+       class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+      Registrar primer hábito
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- Volver -->
+  <div class="mt-6">
+    <a href="{% url 'nutricion:dashboard' %}"
+       class="text-sm text-gray-500 hover:text-gray-700 hover:underline">
+      ← Volver al Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

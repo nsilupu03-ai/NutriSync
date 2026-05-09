@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Comida — NutriSync{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+
+  <div class="bg-white rounded-xl shadow-lg p-8">
+
+    <!-- Título -->
+    <h1 class="text-2xl font-bold text-gray-800 mb-2">🍽️ Registrar Comida</h1>
+    <p class="text-gray-500 text-sm mb-6">
+      Fecha: <strong>{{ hoy|date:"d/m/Y" }}</strong>
+    </p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <!-- Tipo de comida -->
+      <div class="mb-5">
+        <label for="id_tipo_comida" class="block text-sm font-medium text-gray-700 mb-1">
+          Tipo de comida <span class="text-red-500">*</span>
+        </label>
+        <select name="tipo_comida" id="id_tipo_comida"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-500">
+          <option value="">— Selecciona —</option>
+          {% for value, label in tipo_comida_choices %}
+          <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Alimento -->
+      <div class="mb-5">
+        <label for="{{ form.alimento.id_for_label }}"
+               class="block text-sm font-medium text-gray-700 mb-1">
+          Alimento <span class="text-red-500">*</span>
+        </label>
+        {{ form.alimento }}
+        {% if form.alimento.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.alimento.errors|striptags }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Cantidad -->
+      <div class="mb-6">
+        <label for="{{ form.cantidad_g.id_for_label }}"
+               class="block text-sm font-medium text-gray-700 mb-1">
+          Cantidad (gramos) <span class="text-red-500">*</span>
+        </label>
+        {{ form.cantidad_g }}
+        {% if form.cantidad_g.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.cantidad_g.errors|striptags }}</p>
+        {% endif %}
+        <p class="text-xs text-gray-400 mt-1">Los macros se calcularán automáticamente.</p>
+      </div>
+
+      <!-- Errores no de campo -->
+      {% if form.non_field_errors %}
+      <div class="mb-4 bg-red-100 text-red-700 p-3 rounded-lg text-sm">
+        {{ form.non_field_errors|striptags }}
+      </div>
+      {% endif %}
+
+      <!-- Botones -->
+      <div class="flex gap-4 justify-end">
+        <a href="{% url 'nutricion:lista_comidas' %}"
+           class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-5 rounded-lg transition">
+          Cancelar
+        </a>
+        <button type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+          Guardar comida
+        </button>
+      </div>
+    </form>
+
+  </div>
+
+  <!-- Volver -->
+  <div class="mt-4">
+    <a href="{% url 'nutricion:dashboard' %}"
+       class="text-sm text-gray-500 hover:text-gray-700 hover:underline">
+      ← Volver al Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

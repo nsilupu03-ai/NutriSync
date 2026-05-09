@@ -1,0 +1,84 @@
+/* static/css/custom.css
+   Complemento mínimo a Tailwind CSS para NutriSync
+   ================================================= */
+
+/* ---- Tipografía ---- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ---- Barras de progreso animadas ---- */
+.progress-bar {
+  transition: width 0.6s ease-in-out;
+}
+
+/* ---- Tablas: fila seleccionada ---- */
+tbody tr:hover {
+  background-color: #f0fdf4; /* green-50 */
+}
+
+/* ---- Tarjetas con hover suave ---- */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ---- Inputs focus ring global (fallback) ---- */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); /* green-500 con alpha */
+}
+
+/* ---- Botones: transición suave ---- */
+button,
+a.btn {
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+button:active,
+a.btn:active {
+  transform: scale(0.98);
+}
+
+/* ---- Badges / etiquetas tipo pill ---- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ---- Panel admin: ocultar barra Tailwind CDN debug ---- */
+#tc-badge {
+  display: none !important;
+}
+
+/* ---- Logros bloqueados: filtro gris en icono emoji ---- */
+.grayscale {
+  filter: grayscale(100%);
+}
+
+/* ---- Mensajes: animación de entrada ---- */
+.message-flash {
+  animation: fadeSlideIn 0.35s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

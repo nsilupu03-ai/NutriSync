@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Logros — NutriSync{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+
+  <!-- Encabezado -->
+  <div class="mb-8 text-center">
+    <h1 class="text-3xl font-bold text-gray-800">🏆 Mis Logros</h1>
+    <p class="text-gray-500 mt-2">
+      Has obtenido <strong class="text-green-600">{{ obtenidos.count }}</strong>
+      de <strong>{{ obtenidos.count|add:bloqueados.count }}</strong> logros disponibles.
+    </p>
+  </div>
+
+  <!-- Logros obtenidos -->
+  {% if obtenidos %}
+  <div class="mb-10">
+    <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
+      ✅ <span>Obtenidos</span>
+      <span class="bg-green-100 text-green-700 text-sm font-medium px-2.5 py-0.5 rounded-full">
+        {{ obtenidos.count }}
+      </span>
+    </h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for logro in obtenidos %}
+      <div class="bg-green-100 border-2 border-green-500 rounded-xl p-4 text-center
+                  hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+        <div class="text-4xl mb-2">{{ logro.icono }}</div>
+        <h3 class="font-bold text-green-800 text-sm leading-tight">{{ logro.nombre }}</h3>
+        <p class="text-xs text-green-600 mt-1">{{ logro.descripcion }}</p>
+        <span class="mt-2 inline-block text-xs bg-green-500 text-white rounded-full px-2 py-0.5">
+          {{ logro.tipo }}
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Logros bloqueados -->
+  {% if bloqueados %}
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
+      🔒 <span>Por desbloquear</span>
+      <span class="bg-gray-200 text-gray-600 text-sm font-medium px-2.5 py-0.5 rounded-full">
+        {{ bloqueados.count }}
+      </span>
+    </h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for logro in bloqueados %}
+      <div class="bg-gray-100 border-2 border-gray-300 rounded-xl p-4 text-center opacity-50
+                  hover:opacity-70 transition-opacity duration-200">
+        <div class="text-4xl mb-2 grayscale">{{ logro.icono }}</div>
+        <h3 class="font-bold text-gray-600 text-sm leading-tight">{{ logro.nombre }}</h3>
+        <p class="text-xs text-gray-500 mt-1">{{ logro.descripcion }}</p>
+        <span class="mt-2 inline-block text-xs bg-gray-300 text-gray-600 rounded-full px-2 py-0.5">
+          {{ logro.tipo }}
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Estado vacío -->
+  {% if not obtenidos and not bloqueados %}
+  <div class="text-center py-16 text-gray-400">
+    <p class="text-6xl mb-4">🏅</p>
+    <p class="text-lg font-medium">Aún no hay logros configurados.</p>
+    <p class="text-sm mt-2">El administrador puede agregar logros desde el panel de administración.</p>
+  </div>
+  {% endif %}
+
+  <!-- Volver -->
+  <div class="mt-6">
+    <a href="{% url 'nutricion:dashboard' %}"
+       class="text-sm text-gray-500 hover:text-gray-700 hover:underline">
+      ← Volver al Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

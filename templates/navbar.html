@@ -1,10 +1,65 @@
-<nav class="bg-green-700 text-white p-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-        <a href="/" class="text-xl font-bold flex items-center gap-2">
-            <span>🥗</span> NutriSync
+<nav class="bg-green-700 text-white shadow-lg">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo / Nombre -->
+      <a href="{% url 'nutricion:dashboard' %}"
+         class="text-xl font-bold flex items-center gap-2 hover:text-green-200 transition">
+        <span class="text-2xl">🥗</span>
+        <span>NutriSync</span>
+      </a>
+
+      <!-- Links principales (autenticado) -->
+      {% if request.user.is_authenticated %}
+      <div class="hidden md:flex items-center space-x-1">
+        <a href="{% url 'nutricion:dashboard' %}"
+           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition
+                  {% if request.resolver_match.url_name == 'dashboard' %}bg-green-600{% endif %}">
+          📊 Dashboard
         </a>
-        <div class="space-x-4">
-            <a href="/" class="hover:text-green-200">Dashboard</a>
-        </div>
+        <a href="{% url 'nutricion:lista_comidas' %}"
+           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition
+                  {% if request.resolver_match.url_name == 'lista_comidas' %}bg-green-600{% endif %}">
+          🍽️ Comidas
+        </a>
+        <a href="{% url 'nutricion:lista_habitos' %}"
+           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition
+                  {% if request.resolver_match.url_name == 'lista_habitos' %}bg-green-600{% endif %}">
+          💧 Hábitos
+        </a>
+        <a href="{% url 'nutricion:logros' %}"
+           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition
+                  {% if request.resolver_match.url_name == 'logros' %}bg-green-600{% endif %}">
+          🏆 Logros
+        </a>
+      </div>
+
+      <!-- Usuario y perfil -->
+      <div class="flex items-center gap-3">
+        <a href="{% url 'nutricion:perfil' %}"
+           class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition text-sm font-medium">
+          👤 {{ request.user.get_full_name|default:request.user.username }}
+        </a>
+        <a href="{% url 'nutricion:logout' %}"
+           class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 transition text-sm font-medium">
+          Salir
+        </a>
+      </div>
+
+      {% else %}
+      <!-- Usuario no autenticado -->
+      <div class="flex items-center gap-3">
+        <a href="{% url 'nutricion:login' %}"
+           class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition text-sm font-medium">
+          Iniciar sesión
+        </a>
+        <a href="{% url 'nutricion:registro' %}"
+           class="px-4 py-2 rounded-lg bg-white text-green-700 hover:bg-green-50 transition text-sm font-medium">
+          Registrarse
+        </a>
+      </div>
+      {% endif %}
+
     </div>
+  </div>
 </nav>

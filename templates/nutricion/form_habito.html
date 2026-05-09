@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Hábitos — NutriSync{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+
+  <div class="bg-white rounded-xl shadow-lg p-8">
+
+    <!-- Título -->
+    <h1 class="text-2xl font-bold text-gray-800 mb-2">💧 Registrar Hábitos</h1>
+    <p class="text-gray-500 text-sm mb-6">
+      Registra tu actividad diaria: agua, sueño, pasos y ejercicio.
+    </p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <!-- Fecha -->
+      <div class="mb-5">
+        <label for="{{ form.fecha.id_for_label }}"
+               class="block text-sm font-medium text-gray-700 mb-1">
+          Fecha <span class="text-red-500">*</span>
+        </label>
+        {{ form.fecha }}
+        {% if form.fecha.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.fecha.errors|striptags }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Fila: Vasos de agua + Horas de sueño -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+        <div>
+          <label for="{{ form.vasos_agua.id_for_label }}"
+                 class="block text-sm font-medium text-gray-700 mb-1">
+            💧 Vasos de agua
+          </label>
+          {{ form.vasos_agua }}
+          {% if form.vasos_agua.errors %}
+          <p class="text-red-500 text-xs mt-1">{{ form.vasos_agua.errors|striptags }}</p>
+          {% endif %}
+        </div>
+        <div>
+          <label for="{{ form.horas_sueno.id_for_label }}"
+                 class="block text-sm font-medium text-gray-700 mb-1">
+            😴 Horas de sueño
+          </label>
+          {{ form.horas_sueno }}
+          {% if form.horas_sueno.errors %}
+          <p class="text-red-500 text-xs mt-1">{{ form.horas_sueno.errors|striptags }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Fila: Pasos + Minutos ejercicio -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+        <div>
+          <label for="{{ form.pasos.id_for_label }}"
+                 class="block text-sm font-medium text-gray-700 mb-1">
+            👟 Pasos caminados
+          </label>
+          {{ form.pasos }}
+          {% if form.pasos.errors %}
+          <p class="text-red-500 text-xs mt-1">{{ form.pasos.errors|striptags }}</p>
+          {% endif %}
+        </div>
+        <div>
+          <label for="{{ form.minutos_ejercicio.id_for_label }}"
+                 class="block text-sm font-medium text-gray-700 mb-1">
+            🏋️ Minutos de ejercicio
+          </label>
+          {{ form.minutos_ejercicio }}
+          {% if form.minutos_ejercicio.errors %}
+          <p class="text-red-500 text-xs mt-1">{{ form.minutos_ejercicio.errors|striptags }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Tipo de ejercicio -->
+      <div class="mb-6">
+        <label for="{{ form.tipo_ejercicio.id_for_label }}"
+               class="block text-sm font-medium text-gray-700 mb-1">
+          🏃 Tipo de ejercicio
+        </label>
+        {{ form.tipo_ejercicio }}
+        {% if form.tipo_ejercicio.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.tipo_ejercicio.errors|striptags }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Errores no de campo -->
+      {% if form.non_field_errors %}
+      <div class="mb-4 bg-red-100 text-red-700 p-3 rounded-lg text-sm">
+        {{ form.non_field_errors|striptags }}
+      </div>
+      {% endif %}
+
+      <!-- Botones -->
+      <div class="flex gap-4 justify-end">
+        <a href="{% url 'nutricion:dashboard' %}"
+           class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-5 rounded-lg transition">
+          Cancelar
+        </a>
+        <button type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+          Guardar hábitos
+        </button>
+      </div>
+    </form>
+
+  </div>
+
+  <!-- Volver -->
+  <div class="mt-4">
+    <a href="{% url 'nutricion:dashboard' %}"
+       class="text-sm text-gray-500 hover:text-gray-700 hover:underline">
+      ← Volver al Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}
